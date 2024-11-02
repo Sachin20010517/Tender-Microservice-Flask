@@ -8,12 +8,3 @@ class Config:
 
 # Initialize database connection
 db = mongodb_config.get_database()
-
-
-
-# config.py
-
-#from dbConfig.dbConnector import mongodb_config
-
-# Access the database through `mongodb_config.get_database()`
-#db = mongodb_config.get_database()

@@ -1,5 +1,3 @@
-# dbConfig/db_connection.py
-
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
@@ -27,7 +25,7 @@ class MongoDBConfig:
             raise e
 
     def get_database(self):
-        if not self.database:
+        if self.database is None:  # Change this line
             self.connect_to_mongo()
         return self.database
 
