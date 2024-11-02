@@ -1,39 +1,16 @@
-# api_handler/tender_routes.py
-
-from flask import Blueprint, request, jsonify
-from api.api_create_tender import TenderAPI
-from utils.fileHandler import handle_error
+from flask import Blueprint
+from api.api_create_tender_tenderId import create_tender
+from api.api_get_tender_tenderId import get_tender
+from api.api_update_tender_tenderId import update_tender
+from api.api_delete_tender_tenderId import delete_tender
+from api.api_getAll_tenders import get_all_tender
 
 tender_bp = Blueprint('tender_bp', __name__)
 
-@tender_bp.route('/tender', methods=['POST'])
-@handle_error
-def create_tender():
-    data = request.json
-    tender_id = TenderAPI.create_tender(data)
-    return jsonify({"message": "Tender created", "tenderId": tender_id}), 201
+# Routes for each CRUD operation
+tender_bp.route('/CreateTender', methods=['POST'])(create_tender)
+tender_bp.route('/FindTender', methods=['GET'])(get_tender)
+tender_bp.route('/UpdateTender', methods=['PUT'])(update_tender)
+tender_bp.route('/DeleteTender', methods=['DELETE'])(delete_tender)
+tender_bp.route('/FindAllTenders', methods=['GET'])(get_all_tender)
 
-@tender_bp.route('/tender/<tender_id>', methods=['GET'])
-@handle_error
-def get_tender(tender_id):
-    tender = TenderAPI.get_tender(tender_id)
-    return jsonify(tender), 200
-
-@tender_bp.route('/tenders', methods=['GET'])
-@handle_error
-def get_all_tenders():
-    tenders = TenderAPI.get_all_tenders()
-    return jsonify(tenders), 200
-
-@tender_bp.route('/tender/<tender_id>', methods=['PUT'])
-@handle_error
-def update_tender(tender_id):
-    data = request.json
-    message = TenderAPI.update_tender(tender_id, data)
-    return jsonify({"message": message}), 200
-
-@tender_bp.route('/tender/<tender_id>', methods=['DELETE'])
-@handle_error
-def delete_tender(tender_id):
-    message = TenderAPI.delete_tender(tender_id)
-    return jsonify({"message": message}), 200
